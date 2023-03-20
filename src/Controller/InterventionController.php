@@ -93,6 +93,8 @@ class InterventionController extends AbstractController
         $this->em = $em;
         $theStatus = $intervention->getStatus();
 
+        dump($intervention->getInterventionReport());
+
         if ($request->request->has('status')) {
             $newStatus = $request->request->get('status');
 
@@ -118,13 +120,18 @@ class InterventionController extends AbstractController
                             $intervention->setStatus($newStatus);
                             $this->em->persist($intervention);
                             $this->em->flush();
-                            return $this->redirectToRoute('index');
+                            //$this->em->ApiDoli();
+                            // return $this->redirectToRoute('index');
                         }
                         break;
                 }
         
                 $this->em->persist($intervention);
                 $this->em->flush();
+            }
+            function ApiDoli()
+            {
+
             }
         }
 
