@@ -18,7 +18,10 @@ class DolibarrHelper{
         $contentType = $response->getHeaders()['content-type'][0];
         $content = $response->getContent();
         $content_decode = json_decode($content);
-        
+        if($content_decode != 200)
+        {
+
+        }
         return $content_decode;
         
 }
@@ -30,5 +33,6 @@ class DolibarrHelper{
         $contentType = $response->getHeaders()['content-type'][0];
         $content = $response->getContent();
         $content_decode = json_decode($content);
+        return $content_decode;
     }
 }
