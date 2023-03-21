@@ -24,6 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\SoftwareInterventionReportRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Services\DolibarrHelper;
 
 /**
  * @Route("/intervention")
@@ -88,12 +89,12 @@ class InterventionController extends AbstractController
     /**
      * @Route("/{id}", name="intervention_show", methods={"GET","POST"})
      */
-    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar, SoftwareInterventionReportRepository $sirr): Response
+    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar, SoftwareInterventionReportRepository $sirr, DolibarrHelper $dolibarrHelper): Response
     {
         $this->em = $em;
         $theStatus = $intervention->getStatus();
 
-        dump($intervention->getInterventionReport());
+        dump($intervention->getInterventionReport());     
 
         if ($request->request->has('status')) {
             $newStatus = $request->request->get('status');
@@ -114,24 +115,31 @@ class InterventionController extends AbstractController
                             $intervention->setReturnDate(null);
                         }
                     break;
-
+                        
                     case "Terminée":
                         if ( $intervention->getInterventionReport()->getStep() == 8 && $intervention->getReturnDate() ) {
                             $intervention->setStatus($newStatus);
                             $this->em->persist($intervention);
                             $this->em->flush();
+
+                            $client = $intervention->getClient();
+                            $clientId = $dolibarrHelper->getClientId($client->getLastName(), $client->getFirstName());
+                            dump("clientId = '" . $clientId . "'");
+                            
+                            $produitId = $dolibarrHelper->getProduit("Disque");
+
+                            dump($dolibarrHelper->getProduit("Disque"));
+
+                            
                             //$this->em->ApiDoli();
                             // return $this->redirectToRoute('index');
+                            
                         }
                         break;
                 }
         
                 $this->em->persist($intervention);
                 $this->em->flush();
-            }
-            function ApiDoli()
-            {
-
             }
         }
 
