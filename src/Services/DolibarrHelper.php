@@ -28,7 +28,8 @@ class DolibarrHelper{
     public function getProduit(String $nomProduit)
     {
         $httpClient = HttpClient::create();
-        $response = $httpClient->request('GET', 'https://lbouquet.doli.sio-ndlp.fr/api/index.php/products?limit=1&sqlfilters=t.label="'.$nomProduit.'"&DOLAPIKEY=8n8O4975Miz06XpO6HAKdfmOJQpkjSz3');
+        $response = $httpClient->request('GET', 'https://lbouquet.doli.sio-ndlp.fr/api/index.php/products?limit=1&sqlfilters=t.label="'.$nomProduit.'
+        "&DOLAPIKEY=8n8O4975Miz06XpO6HAKdfmOJQpkjSz3');
         $statusCode = $response->getStatusCode();
         $contentType = $response->getHeaders()['content-type'][0];
         $content = $response->getContent();

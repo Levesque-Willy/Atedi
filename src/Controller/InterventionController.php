@@ -126,10 +126,10 @@ class InterventionController extends AbstractController
                             $clientId = $dolibarrHelper->getClientId($client->getLastName(), $client->getFirstName());
                             dump($clientId );
                             
-                            $produit = $intervention->
-                            $produitId = $dolibarrHelper->getProduit("");
+                            $produit = $intervention->getEquipment();
+                            $produitId = $dolibarrHelper->getProduit($produit);
 
-                            dump($dolibarrHelper->getProduit(""));
+                            dump($produitId);
 
                             
                             //$this->em->ApiDoli();
